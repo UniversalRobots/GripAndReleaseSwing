@@ -62,7 +62,7 @@ public class GripAndReleaseProgramNodeView implements SwingProgramNodeView<GripA
 		gripperComboBox.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent actionEvent) {
-				setApplyButtonEnablement();
+				setApplyButtonEnablement(contributionProvider.get().getSelectedGripperDevice());
 			}
 		});
 		section.add(gripperComboBox);
@@ -73,12 +73,12 @@ public class GripAndReleaseProgramNodeView implements SwingProgramNodeView<GripA
 		return section;
 	}
 
-	private void setApplyButtonEnablement() {
+	private void setApplyButtonEnablement(GripperDevice gripperDevice) {
 		Object selected = gripperComboBox.getSelectedItem();
 
 		if (selected instanceof GripperDevice) {
 			// Enable button if the selected gripper has not already been applied
-			applyButton.setEnabled(!selected.equals(contributionProvider.get().getSelectedGripperDevice()));
+			applyButton.setEnabled(!selected.equals(gripperDevice));
 		} else{
 			applyButton.setEnabled(false);
 		}
@@ -98,7 +98,7 @@ public class GripAndReleaseProgramNodeView implements SwingProgramNodeView<GripA
 				gripAndReleaseProgramNodeContribution.createGripperNodeWithGripAndReleaseConfig(gripperDevice);
 
 				// Enable button if the selected gripper has not already been applied
-				setApplyButtonEnablement();
+				setApplyButtonEnablement(gripperDevice);
 			}
 		});
 		section.add(applyButton);
@@ -108,7 +108,7 @@ public class GripAndReleaseProgramNodeView implements SwingProgramNodeView<GripA
 
 	public void updateView() {
 		updateComboBox();
-		setApplyButtonEnablement();
+		setApplyButtonEnablement(contributionProvider.get().getSelectedGripperDevice());
 	}
 
 	private void updateComboBox() {
